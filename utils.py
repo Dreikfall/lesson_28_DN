@@ -36,7 +36,7 @@ def csv_to_json(csv_name, json_name, model_name):
             if 'age' in rows:
                 rows['age'] = int(rows['age'])
             if 'location_id' in rows:
-                rows['locations'] = int(rows['location_id'])
+                #rows['locations'] = int(rows['location_id'])
                 del rows['location_id']
 
             rows = {

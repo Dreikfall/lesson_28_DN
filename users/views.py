@@ -113,7 +113,7 @@ class UserUpdateView(UpdateView):
                 "role": self.object.role,
                 "password": self.object.password,
                 "age": self.object.age,
-                "locations": # вот здесь я встрял
+                #"locations": self.object.locations.all() опять не работает
             }
          )
 
