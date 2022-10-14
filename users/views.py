@@ -94,7 +94,7 @@ class UserUpdateView(UpdateView):
         data = json.loads(request.body)
 
 
-        locations = get_object_or_404(Location, id=data['locations'])
+        #loc = get_object_or_404(Location, id=data['locations'])
 
         self.object.username = data['username']
         self.object.first_name = data['first_name']
@@ -102,8 +102,9 @@ class UserUpdateView(UpdateView):
         self.object.role = data['role']
         self.object.password = data['password']
         self.object.age = data['age']
-        self.object.locations = locations
+        #self.object.locations = loc
         self.object.save()
+        print(self.object)
         return JsonResponse(
             {
                 "id": self.object.id,
@@ -113,7 +114,7 @@ class UserUpdateView(UpdateView):
                 "role": self.object.role,
                 "password": self.object.password,
                 "age": self.object.age,
-                #"locations": self.object.locations.all() опять не работает
+                #"locations": self.object.locations.all()
             }
          )
 
