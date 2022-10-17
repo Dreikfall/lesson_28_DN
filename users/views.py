@@ -1,7 +1,5 @@
 import json
-
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
@@ -92,19 +90,17 @@ class UserUpdateView(UpdateView):
     def patch(self, request, *args, **kwargs):
         super().post(request, *args, **kwargs)
         data = json.loads(request.body)
-
-
-        #loc = get_object_or_404(Location, id=data['locations'])
-
         self.object.username = data['username']
         self.object.first_name = data['first_name']
         self.object.last_name = data['last_name']
         self.object.role = data['role']
         self.object.password = data['password']
         self.object.age = data['age']
-        #self.object.locations = loc
-        self.object.save()
-        print(self.object)
+
+        for loc in data['locations']:
+            location, _ = Location.objects.get_or_create(name=loc)
+            self.object.locations.add(location)
+
         return JsonResponse(
             {
                 "id": self.object.id,
@@ -114,7 +110,7 @@ class UserUpdateView(UpdateView):
                 "role": self.object.role,
                 "password": self.object.password,
                 "age": self.object.age,
-                #"locations": self.object.locations.all()
+                "locations": list(map(str, self.object.locations.all()))
             }
          )
 
